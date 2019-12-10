@@ -1,14 +1,17 @@
 #include <ESP8266WiFi.h>
-//--------------Your Data----------------//
-String apiKey = "4E5ECTO029RANUCT"; // <<<<< YOUR API KEY
-const char* ssid = "Serbius"; // <<<<<<<< Your Wi-Fi SSID 
-const char* password = "..Password"; // <<<<<<<< Your Wi-Fi Pasword
-//--------------------------------------//
+//--------------THINGSPEAK ----------------//
+String apiKey = "4E5ECTO029RANUCT";                  //API KEY
+const char* ssid = "Serbius";                        //Wi-Fi SSID 
+const char* password = "..Password";                //Wi-Fi Pasword
+//----------------------------------------//
+
 const char* server = "api.thingspeak.com";
-int data1, data2, data3, data4, data5, ok;
+int data1, data2, data3, data4;
+
 WiFiClient client;
 unsigned char buff[10], i;
-String buffer1, buffer2;
+String buffer;
+
 void setup()
 {
   Serial.begin(9600);
@@ -29,12 +32,14 @@ void setup()
 }
 void loop()
 {
+  
+  //-------------------------------Recieve Data from NODE--------------------------------//
   if (Serial.available() > 0)
   {
     delay(100);
     while (Serial.available() > 0)
     {
-      buffer1 = Serial.readString();
+      buffer = Serial.readString();
       if (buffer1[0] == '*')
       {
         if (buffer1[9] == '#')
@@ -48,6 +53,9 @@ void loop()
       }
     }
   }
+  //------------------------------------------------------------------------------------//
+  
+  //-------------------------Sending data to Thingspeak---------------------------------//
   if (client.connect(server, 80))
   {
     String postStr = apiKey;
@@ -71,6 +79,8 @@ void loop()
     client.print(postStr);
     Serial.println(postStr);
   }
+  //---------------------------------------------------------------------------------------//
+  
   client.stop();
   Serial.println("Waiting...");
   delay(2000);
