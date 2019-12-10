@@ -5,7 +5,8 @@ const char* ssid = "Serbius";                        //Wi-Fi SSID
 const char* password = "..Password";                //Wi-Fi Pasword
 //----------------------------------------//
 
-const char* server = "api.thingspeak.com";
+const char* server = "api.thingspeak.com";          //aws api
+
 int data1, data2, data3, data4;
 
 WiFiClient client;
@@ -16,7 +17,7 @@ void setup()
 {
   Serial.begin(9600);
   delay(10);
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid, password);                   //Connecting node to local wifi
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
@@ -45,10 +46,10 @@ void loop()
         if (buffer1[9] == '#')
         {
           Serial.println(buffer1);
-          data1 = ((buffer1[1] - 0x30) * 10 + (buffer1[2] - 0x30));
-          data2 = ((buffer1[3] - 0x30) * 10 + (buffer1[4] - 0x30));
-          data3 = ((buffer1[5] - 0x30) * 10 + (buffer1[6] - 0x30));
-          data4 = ((buffer1[7] - 0x30) * 10 + (buffer1[8] - 0x30));
+          data1 = ((buffer1[1] - 0x30) * 10 + (buffer1[2] - 0x30));       //Reading 2 bit data
+          data2 = ((buffer1[3] - 0x30) * 10 + (buffer1[4] - 0x30));       //Reading 2 bit data
+          data3 = ((buffer1[5] - 0x30) * 10 + (buffer1[6] - 0x30));       //Reading 2 bit data
+          data4 = ((buffer1[7] - 0x30) * 10 + (buffer1[8] - 0x30));       //Reading 2 bit data
         }
       }
     }
